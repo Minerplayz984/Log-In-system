@@ -24,7 +24,23 @@ A beginner-friendly, console-based login system developed in C#. This project de
 - **Input Validation:** Fully handled using `try-catch`, `ArgumentException`, and conditional checks.
 
 ---
+## How to Use
+1-Run the program
 
+2-Use the menu to:
+
+Create an account
+
+Login
+
+Modify details
+
+View users (admin-only)
+
+Logout or delete your account
+
+3-Admin access requires the auto-generated Access ID printed on startup.
+---
 ## User Class Structure
 
 ```csharp
