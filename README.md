@@ -1,20 +1,20 @@
-#Login System in C#
+# Login System in C#
 
 A beginner-friendly, console-based login system developed in C#. This project demonstrates foundational **OOP concepts**, **exception handling**, **input validation**, and **basic file-free user data management** using a `List<User>`.
 
-## ✨ Features
+## Features
 
-- 👤 Create new accounts
-- 🔐 Login with credentials
-- 🧾 Modify account details (Name, DOB, Hobbies)
-- 🚪 Logout
-- ❌ Delete account
-- 🔍 View all usernames (Admin only, secured with an access ID)
-- 🎯 Robust error handling for all input and logic errors
+-  Create new accounts
+-  Login with credentials
+-  Modify account details (Name, DOB, Hobbies)
+-  Logout
+-  Delete account
+-  View all usernames (Admin only, secured with an access ID)
+-  Robust error handling for all input and logic errors
 
 ---
 
-## 💡 Technical Overview
+## Technical Overview
 
 - **Language:** C#
 - **IDE:** Visual Studio / .NET CLI
@@ -25,7 +25,7 @@ A beginner-friendly, console-based login system developed in C#. This project de
 
 ---
 
-## 🏗️ User Class Structure
+## User Class Structure
 
 ```csharp
 public class User 
