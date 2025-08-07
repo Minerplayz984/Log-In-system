@@ -1,4 +1,4 @@
-# 🛡️ Login System in C#
+Login System in C#
 
 A beginner-friendly, console-based login system developed in C#. This project demonstrates foundational **OOP concepts**, **exception handling**, **input validation**, and **basic file-free user data management** using a `List<User>`.
 
