@@ -25,21 +25,21 @@ A beginner-friendly, console-based login system developed in C#. This project de
 
 ---
 ## How to Use
--1-Run the program
+1-Run the program
 
--2-Use the menu to:
+2-Use the menu to:
 
--Create an account
+Create an account
 
--Login
+Login
 
--Modify details
+Modify details
 
--View users (admin-only)
+View users (admin-only)
 
--Logout or delete your account
+Logout or delete your account
 
--3-Admin access requires the auto-generated Access ID printed on startup.
+3-Admin access requires the auto-generated Access ID printed on startup.
 
 ---
 ## User Class Structure
