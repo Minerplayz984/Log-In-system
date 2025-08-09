@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Globalization;
-using Microsoft.SqlServer.Server;
-using static Log_in_System.Program;
 
 
 namespace Log_in_System
@@ -541,3 +539,4 @@ namespace Log_in_System
         }
     }
 }
+
