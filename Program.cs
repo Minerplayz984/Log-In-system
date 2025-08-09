@@ -1,7 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Globalization;
+using Microsoft.SqlServer.Server;
+using static Log_in_System.Program;
 
 
 namespace Log_in_System
@@ -22,7 +24,25 @@ namespace Log_in_System
         }
         static bool LoginState = false;
         static User currentUser;
-
+        static string Msg;
+        static void ErrorMsg(string msg)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(msg);
+            Console.Beep();
+            Console.ResetColor();
+            Menu();
+            return;
+        }
+        static void ErrorMsg2(string msg)
+        {
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(msg);
+            Console.Beep();
+            Console.ResetColor();
+        }
         static void CreateAccount()
         {
             if (LoginState == false)
@@ -37,12 +57,7 @@ namespace Log_in_System
                     {
                         if (L.username == N.username)
                         {
-                            Console.Clear();
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("An account with this username already exists !!");
-                            Console.ResetColor();
-                            Menu();
-                            return;
+                            ErrorMsg(Msg= "An account with this username already exists !!");
                         }
                     }
                     user.username = N.username;
@@ -62,47 +77,28 @@ namespace Log_in_System
                 {
                     if (e.Message == "Username can't be empty or have a space")
                     {
-                        Console.Clear();
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Username can't be empty or have a space !!");
-                        Console.ResetColor();
-                        Menu();
-                        return;
+                        ErrorMsg(Msg = "Username can't be empty or have a space !!");
                     }
                     if (e.Message == "Password can't be empty or have a space")
                     {
-                        Console.Clear();
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Password can't be empty or have a space !!");
-                        Console.ResetColor();
-                        Menu();
-                        return;
+                        ErrorMsg(Msg = "Password can't be empty or have a space !!");
                     }
                 }
                 catch (Exception)
                 {
-                    Console.Clear();
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Unknown error occurred");
-                    Console.ResetColor();
-                    Menu();
-                    return;
+                    ErrorMsg("Unknown error occurred");
                 }
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("User created successfully!");
+                Console.Beep();
                 Console.ResetColor();
                 Menu();
                 return;
             }
             else
             {
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("You must be logged out to create an account!");
-                Console.ResetColor();
-                Menu();
-                return;
+                ErrorMsg(Msg = "You must be logged out to create an account !!");
             }
         }
 
@@ -139,6 +135,7 @@ namespace Log_in_System
                         Console.Clear();
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Login successful!");
+                        Console.Beep();
                         Console.ResetColor();
                         LoginState = true;
                         currentUser = LoggedUser;
@@ -146,53 +143,28 @@ namespace Log_in_System
                     }
                     else
                     {
-                        Console.Clear();
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Username or password are incorrect");
-                        Console.ResetColor();
-                        Menu();
-                        return;
+                        ErrorMsg(Msg = "Username or password are incorrect !!");
                     }
                 }
                 else
                 {
-                    Console.Clear();
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("You are already logged in !!");
-                    Console.ResetColor();
-                    Menu();
-                    return;
+                    ErrorMsg(Msg = "You are already logged in !!");
                 }
             }
             catch (ArgumentException t)
             {
                 if (t.Message == "Username can't be empty or have a space")
                 {
-                    Console.Clear();
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Username can't be empty or have a space !!");
-                    Console.ResetColor();
-                    Menu();
-                    return;
+                    ErrorMsg(Msg = "Username can't be empty or have a space !!");
                 }
                 if (t.Message == "Password can't be empty or have a space")
                 {
-                    Console.Clear();
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Password can't be empty or have a space !!");
-                    Console.ResetColor();
-                    Menu();
-                    return;
+                    ErrorMsg(Msg = "Password can't be empty or have a space !!");
                 }
             }
             catch (Exception)
             {
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Unknown error occurred");
-                Console.ResetColor();
-                Menu();
-                return;
+                ErrorMsg(Msg = "Unknown error occurred");
             }
         }
 
@@ -257,10 +229,7 @@ namespace Log_in_System
                 }
                 catch(FormatException)
                 {
-                    Console.Clear();
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Number inputted is in the wrong format !!");
-                    Console.ResetColor();
+                    ErrorMsg2(Msg= "Number inputted is in the wrong format !!");
                     LoginSucces(user);
                 }
                 switch (choice2)
@@ -284,6 +253,7 @@ namespace Log_in_System
                         Console.ForegroundColor = ConsoleColor.Green;
                         user.name = h.username;
                         Console.WriteLine("Full name added successfully !!");
+                        Console.Beep();
                         Console.ResetColor();
                         LoginSucces(user);
                         break;
@@ -300,15 +270,13 @@ namespace Log_in_System
                         }
                         catch (FormatException)
                         {
-                            Console.Clear();
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine("Date of birth must be in the DD/MM/YYYY format !!");
-                            Console.ResetColor();
+                            ErrorMsg2(Msg = "Date of birth must be in the DD/MM/YYYY format !!");
                             LoginSucces(user);
                         }
                         Console.Clear();
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Date of birth added successfully");
+                        Console.Beep();
                         Console.ResetColor();
                         LoginSucces(user);
                         break;
@@ -324,6 +292,7 @@ namespace Log_in_System
                         Console.ForegroundColor = ConsoleColor.Green;
                         user.Hobbies = plo.username;
                         Console.WriteLine("Hobbies added successfully !!");
+                        Console.Beep();
                         Console.ResetColor();
                         LoginSucces(user);
                         break;
@@ -336,10 +305,7 @@ namespace Log_in_System
                         Menu();
                         return;
                     default:
-                        Console.Clear();
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Only numbers 1 to 4 are valid!!");
-                        Console.ResetColor();
+                        ErrorMsg2(Msg = "Only numbers 1 to 4 are valid!!");
                         LoginSucces(user);
                         break;
                 }
@@ -348,51 +314,33 @@ namespace Log_in_System
             {
                 if (k.Message == "Full name can't be empty")
                 {
-                    Console.Clear();
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Full name can't be empty !!");
-                    Console.ResetColor();
+                    ErrorMsg2(Msg = "Full name can't be empty !!");
                     LoginSucces(user);
                 }
                 if (k.Message == "Full name can only have alphabets and spaces")
                 {
-                    Console.Clear();
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Full name can only have alphabets and spaces !!");
-                    Console.ResetColor();
+                    ErrorMsg2(Msg = "Full name can only have alphabets and spaces !!");
                     LoginSucces(user);
                 }
                 if (k.Message == "Date of birth can't be empty")
                 {
-                    Console.Clear();
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Date of birth can't be empty !!");
-                    Console.ResetColor();
+                    ErrorMsg2(Msg = "Date of birth can't be empty !!");
                     LoginSucces(user);
                 }
                 if (k.Message == "Number inputted can't be empty")
                 {
-                    Console.Clear();
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Number inputted can't be empty !!");
-                    Console.ResetColor();
+                    ErrorMsg2(Msg = "Number inputted can't be empty !!");
                     LoginSucces(user);
                 }
                 if (k.Message == "Hobbies can't be empty")
                 {
-                    Console.Clear();
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Number inputted can't be empty !!");
-                    Console.ResetColor();
+                    ErrorMsg2(Msg = "Hobbies can't be empty !!");
                     LoginSucces(user);
                 }
             }
             catch (Exception)
             {
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Unknown error occurred");
-                Console.ResetColor();
+                ErrorMsg2(Msg = "Unknown error occurred");
                 LoginSucces(user);
             }
         }
@@ -406,12 +354,7 @@ namespace Log_in_System
             }
             else
             {
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("You must to be logged in to use this !!");
-                Console.ResetColor();
-                Menu();
-                return;
+                ErrorMsg(Msg = "You must be logged in to use this !!");
             }
         }
 
@@ -424,18 +367,14 @@ namespace Log_in_System
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Successfully Logged out");
+                Console.Beep();
                 Console.ResetColor();
                 Menu();
                 return;
             }
             else
             {
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("You are already logged out!!");
-                Console.ResetColor();
-                Menu();
-                return;
+                ErrorMsg(Msg = "You are already logged out!!");
             }
         }
 
@@ -449,18 +388,14 @@ namespace Log_in_System
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Account deleted successfully");
+                Console.Beep();
                 Console.ResetColor();
                 Menu();
                 return;
             }
             else
             {
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("You must to be logged in to use this !!");
-                Console.ResetColor();
-                Menu();
-                return;
+                ErrorMsg(Msg = "You must be logged in to use this !!");
             }
         }
 
@@ -497,12 +432,7 @@ namespace Log_in_System
                     }
                     else
                     {
-                        Console.Clear();
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("No users have been created yet !!");
-                        Console.ResetColor();
-                        Menu();
-                        return;
+                        ErrorMsg(Msg = "No users have been created yet !!");
                     }
                 }
                 else
@@ -510,6 +440,7 @@ namespace Log_in_System
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Incorrect Access ID !!");
+                    Console.Beep();
                     Console.ResetColor();
                     ShowList();
                     return;
@@ -520,6 +451,7 @@ namespace Log_in_System
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("ID can't be empty !!");
+                Console.Beep();
                 Console.ResetColor();
                 ShowList();
                 return;
@@ -529,18 +461,14 @@ namespace Log_in_System
                 Console.Clear();
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("ID is in the wrong format !!");
+                Console.Beep();
                 Console.ResetColor();
                 ShowList();
                 return;
             }
             catch (Exception)
             {
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Unknown error occurred");
-                Console.ResetColor();
-                Menu();
-                return;
+                ErrorMsg(Msg = "Unknown error occurred");
             }
         }
 
@@ -582,42 +510,26 @@ namespace Log_in_System
                         Console.Clear();
                         ShowList();
                         break;
-                    case 7: return;
+                    case 7:
+                        Console.Write("Exiting program... Goodbye!");
+                        Environment.Exit(0);
+                        break;
                     default:
-                        Console.Clear();
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("Only numbers 1 to 7 are valid!!");
-                        Console.ResetColor();
-                        Menu();
+                        ErrorMsg(Msg = "Only numbers 1 to 7 are valid!!");
                         return;
                 }
             }
             catch (FormatException)
             {
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Number inputted is in the wrong format !!");
-                Console.ResetColor();
-                Menu();
-                return;
+                ErrorMsg(Msg = "Number inputted is in the wrong format !!");
             }
             catch (ArgumentException)
             {
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Number can't be empty !!");
-                Console.ResetColor();
-                Menu();
-                return;
+                ErrorMsg(Msg = "Number can't be empty !!");
             }
             catch (Exception)
             {
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Unknown error occurred");
-                Console.ResetColor();
-                Menu();
-                return;
+                ErrorMsg(Msg = "Unknown error occurred");
             }
         }
 
